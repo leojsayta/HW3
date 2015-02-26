@@ -18,17 +18,26 @@ int main(int argc, const char *argv[])
 {
     try
     {
-        CardValue c1 = CardValue::Ace;
-        CardValue c2 = CardValue::Five;
-        CardValue c3 = CardValue::Jack;
-        CardValue c4 = CardValue::Three;
-        CardValue c5 = CardValue::Six;
-        CardValue c6 = CardValue::Nine;
+        CardValue ca1 = CardValue::Ace;
+        CardValue ca2 = CardValue::Five;
+        CardValue ca3 = CardValue::Five;
+        CardValue ca4 = CardValue::Three;
+        CardValue ca5 = CardValue::Five;
+        CardValue ca6 = CardValue::Nine;
+        
+        CardValue cb1 = CardValue::Ace;
+        CardValue cb2 = CardValue::Five;
+        CardValue cb3 = CardValue::Four;
+        CardValue cb4 = CardValue::Three;
+        CardValue cb5 = CardValue::Four;
+        CardValue cb6 = CardValue::Five;
         
         
-        vector<CardValue> cards{c1,c2,c3,c4,c5,c6};
+        vector<CardValue> cardas = {ca1,ca2,ca3,ca4,ca5,ca6};
+        vector<CardValue> cardbs = {cb1,cb2,cb3,cb4,cb5,cb6};
         
-        sort(cards.begin(), cards.end());
+        sort(cardas.begin(), cardas.end());
+        sort(cardbs.begin(), cardbs.end());
         
         printf("\nSomething went wrong!  Please start over.");
         

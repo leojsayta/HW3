@@ -39,6 +39,7 @@
       <compileType>
         <ccTool>
           <standard>8</standard>
+          <commandlineTool>g++</commandlineTool>
         </ccTool>
       </compileType>
       <item path="HW3Classes.cpp" ex="false" tool="1" flavor2="0">

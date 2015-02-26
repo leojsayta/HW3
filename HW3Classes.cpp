@@ -20,6 +20,26 @@ Card::Card(CardSuit suit, CardValue val) : Card()
     this->Value = val;
 }
 
+bool Card::operator==(const Card& otherCard) const
+{
+    return true;
+}
+    
+bool Card::operator!=(const Card& otherCard) const
+{
+    return true;
+} 
+
+bool Card::operator<(const Card& otherCard) const
+{
+    return true;
+}
+
+bool Card::operator>(const Card& otherCard) const
+{
+    return true;
+}
+
 HandValue::HandValue()
 {
     this->TypeOfHand = HandType::HighCard;
@@ -27,9 +47,10 @@ HandValue::HandValue()
     this->HighCard2 = Card();
 }
 
-HandValue::HandValue(const Hand* hnd) : HandValue()
+HandValue::HandValue(Hand* hnd) : HandValue()
 {
-    this->p_hand = hnd;
+    //this->p_hand = hnd;
+    //hnd->p_handValue = this;
 }
 
 Hand::Hand()
@@ -48,6 +69,58 @@ Hand::Hand(vector<Card>& cards) : Hand()
     this->SetCards(cards);
 }
 
+void Hand::determineValue()
+{
+    sort(this->cards.begin(), this->cards.end());
+    
+    for(int i = 0; i < this->cards.size(); i++)
+    {
+        if (cards[i].Value == cards[i+1].Value)
+        {
+            if (cards[i].Value == cards[i+2].Value)
+            {
+                if (cards[i].Value == cards[i+3].Value)
+                {
+                    
+                }
+            }
+        }
+    }
+}
+
+bool Hand::checkForRepeatedVals(int index)
+{
+    if ((index + 1) < this->cards.size())
+    {
+        while (checkForRepeatedVals(index++))
+        {
+            
+        }
+    }
+    
+    return false;
+}
+
+bool Hand::operator==(const Hand& otherHand) const
+{
+    return true;
+} 
+
+bool Hand::operator!=(const Hand& otherHand) const
+{
+    return true;
+} 
+
+bool Hand::operator<(const Hand& otherHand) const
+{
+    return true;
+} 
+
+bool Hand::operator>(const Hand& otherHand) const
+{
+    return true;
+}
+
 constexpr CardSuit operator++(CardSuit& cs, int)
 {   
     return cs = (cs == CardSuit::Spade) ? CardSuit::Club : static_cast<CardSuit>(static_cast<int>(cs) + 1);
@@ -57,3 +130,4 @@ constexpr CardValue operator++(CardValue& cv, int)
 {
    return cv = (cv == CardValue::Ace) ? CardValue::Two : static_cast<CardValue>(static_cast<int>(cv) + 1);
 }
+

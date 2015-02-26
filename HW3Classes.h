@@ -36,9 +36,7 @@ enum class HandType {
 class Card
 {
     
-private:
-    
-    
+private:   
     
 public:
     
@@ -48,6 +46,14 @@ public:
     Card();
     
     Card(CardSuit suit, CardValue val);
+    
+    bool operator==(const Card& otherCard) const; 
+    
+    bool operator!=(const Card& otherCard) const; 
+    
+    bool operator<(const Card& otherCard) const; 
+    
+    bool operator>(const Card& otherCard) const;
 };
 
 class Hand;
@@ -56,10 +62,10 @@ class HandValue
 {
 private:
 
-    const Hand* p_hand = nullptr;
+    Hand* p_hand = nullptr;
     
     HandValue();
-
+    
 public:
 
     HandType TypeOfHand;
@@ -72,8 +78,8 @@ public:
     Card HighCard1; 
     Card HighCard2;
 
-    HandValue(const Hand* hnd);
-
+    HandValue(Hand* hnd);
+    
 };
 
 class Hand
@@ -84,38 +90,42 @@ private:
     vector<Card> cards;
     HandValue* p_handValue = nullptr;
     
+    void determineValue();
+    
+    void sortBySuit();
+    
+    bool checkForRepeatedVals(int index);
+    
 public:
     
     Hand();
     
     Hand(vector<Card>& cards);
 
-    void SetCards(vector<Card>& cards) {
+    void SetCards(vector<Card>& cards)
+    {
         this->cards = cards;
     }
 
-    vector<Card> GetCards() const {
+    vector<Card> GetCards()
+    {
         return cards;
     }
     
-    void SortByValue();
+    bool operator==(const Hand& otherHand) const; 
     
-    void SortBySuit();
+    bool operator!=(const Hand& otherHand) const; 
     
-    bool IsFlush();
+    bool operator<(const Hand& otherHand) const; 
     
-    bool operator==(const Hand& otherHand); 
-    
-    bool operator!=(const Hand& otherHand); 
-    
-    bool operator<(const Hand& otherHand); 
-    
-    bool operator>(const Hand& otherHand);
+    bool operator>(const Hand& otherHand) const;
     
 };
 
 
-constexpr CardSuit operator++(CardSuit a); 
+//constexpr CardSuit operator++(CardSuit a); 
+//
+//constexpr CardValue operator++(CardValue& cv, int);
 
 
 #endif /* defined(__HW3__HW3Classes__) */

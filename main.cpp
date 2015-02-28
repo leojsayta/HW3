@@ -31,10 +31,11 @@ int main(int argc, const char *argv[])
         CardValue cb4 = CardValue::Three;
         CardValue cb5 = CardValue::Four;
         CardValue cb6 = CardValue::Five;
+        CardValue cb7 = CardValue::NAC;
         
         
         vector<CardValue> cardas = {ca1,ca2,ca3,ca4,ca5,ca6};
-        vector<CardValue> cardbs = {cb1,cb2,cb3,cb4,cb5,cb6};
+        vector<CardValue> cardbs = {cb1,cb2,cb3,cb4,cb5,cb6,cb7};
         
         sort(cardas.begin(), cardas.end());
         sort(cardbs.begin(), cardbs.end());

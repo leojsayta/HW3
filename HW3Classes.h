@@ -10,7 +10,7 @@
 #define __HW3__HW3Classes__
 
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -47,6 +47,8 @@ public:
     CardValue Value;
     
     Card(CardSuit suit, CardValue val);
+    
+    Card(char suit, char val);
     
     bool operator==(const Card& otherCard) const;
     

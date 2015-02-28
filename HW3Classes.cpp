@@ -8,6 +8,25 @@
 
 #include "HW3Classes.h"
 
+#define HEARTS 'H'
+#define CLUBS 'C'
+#define DIAMONDS 'D'
+#define SPADES 'S'
+
+#define TWO '2'
+#define THREE '3'
+#define FOUR '4'
+#define FIVE '5'
+#define SIX '6'
+#define SEVEN '7'
+#define EIGHT '8'
+#define NINE '9'
+#define JACK 'J'
+#define QUEEN 'Q'
+#define KING 'K'
+#define ACE 'A'
+
+
 Card::Card()
 {
     this->Suit = CardSuit::NAC;
@@ -18,6 +37,11 @@ Card::Card(CardSuit suit, CardValue val) : Card()
 {
     this->Suit = suit;
     this->Value = val;
+}
+
+Card::Card(char suit, char val) : Card()
+{
+    
 }
 
 bool Card::operator==(const Card& otherCard) const

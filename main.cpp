@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <exception>
 #include <vector>
 #include "HW3Classes.h"

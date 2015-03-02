@@ -176,9 +176,12 @@ void Hand::determineValue()
     
     sort(this->cards.begin(), this->cards.end());
     
-    this->p_handValue->HighCardVal1 = this->cards[this->cards.size() - 1].Value;
-    this->p_handValue->HighCardVal2 = this->cards[this->cards.size() - 2].Value;
-    this->p_handValue->HighCardVal3 = this->cards[this->cards.size() - 3].Value;
+    this->p_handValue->TypeOfHand = HandType::NAH;
+    this->p_handValue->HighCardVal1 = CardValue::NAC;
+    this->p_handValue->HighCardVal2 = CardValue::NAC;
+    this->p_handValue->HighCardVal3 = CardValue::NAC;
+    this->p_handValue->HighCardVal4 = CardValue::NAC;
+    this->p_handValue->HighCardVal5 = CardValue::NAC;
     
     // Check cards of equal value:
     CardValue pair1Val = CardValue::NAC;
@@ -224,75 +227,141 @@ void Hand::determineValue()
         
     } while (index < (this->cards.size() - 1));
     
-    if (fourOfKindVal != CardValue::NAC)
+	if (fourOfKindVal != CardValue::NAC)
     {
-        this->p_handValue->TypeOfHand = HandType::Four_of_Kind;
-        this->p_handValue->HighCardVal1 = fourOfKindVal;
-    }
-    else
+		this->p_handValue->TypeOfHand = HandType::Four_of_Kind;
+		this->p_handValue->HighCardVal1 = fourOfKindVal;
+
+		for (Card crd : this->cards)
+        {
+			if (crd.Value != fourOfKindVal)
+            {
+				this->p_handValue->HighCardVal2 = crd.Value;
+				break;
+			}
+		}
+	}
+	else if (threeOfKindVal != CardValue::NAC)
     {
-        if (threeOfKindVal != CardValue::NAC)
+		this->p_handValue->HighCardVal1 = threeOfKindVal;
+
+		if (pair1Val != CardValue::NAC)
         {
-            this->p_handValue->HighCardVal1 = threeOfKindVal;
-            if (pair1Val != CardValue::NAC)
-            {
-                this->p_handValue->HighCardVal2 = pair1Val;
-                this->p_handValue->TypeOfHand = HandType::FullHouse;
-            }
-            else
-                this->p_handValue->TypeOfHand = HandType::Three_of_Kind;
-        }
-        else
+			this->p_handValue->HighCardVal2 = pair1Val;
+			this->p_handValue->TypeOfHand = HandType::FullHouse;
+		}
+		else
         {
-            if (pair1Val != CardValue::NAC)
+			this->p_handValue->TypeOfHand = HandType::Three_of_Kind;
+
+			for (long crdIndex = (this->cards.size() - 1); crdIndex >= 0; --crdIndex)
             {
-                this->p_handValue->HighCardVal1 = pair1Val;
-                if (pair2Val != CardValue::NAC)
+				if (this->cards[crdIndex].Value != threeOfKindVal)
                 {
-                    this->p_handValue->HighCardVal2 = pair2Val;
-                    this->p_handValue->TypeOfHand = HandType::TwoPair;
+					if (this->p_handValue->HighCardVal2 != CardValue::NAC)
+						this->p_handValue->HighCardVal3 = this->cards[crdIndex].Value;
+					else
+						this->p_handValue->HighCardVal2 = this->cards[crdIndex].Value;
+				}
+			}
+		}
+	}
+	else if (pair2Val != CardValue::NAC)
+    {
+		this->p_handValue->TypeOfHand = HandType::TwoPair;
+
+		if (pair1Val > pair2Val)
+        {
+			this->p_handValue->HighCardVal1 = pair1Val;
+			this->p_handValue->HighCardVal2 = pair2Val;
+		}
+		else
+        {
+			this->p_handValue->HighCardVal1 = pair2Val;
+			this->p_handValue->HighCardVal2 = pair1Val;
+		}
+
+		for (Card crd : this->cards)
+        {
+			if (crd.Value != pair1Val && crd.Value != pair2Val)
+            {
+				this->p_handValue->HighCardVal3 = crd.Value;
+				break;
+			}
+		}
+	}
+	else if (pair1Val != CardValue::NAC)
+    {
+		this->p_handValue->TypeOfHand = HandType::OnePair;
+		this->p_handValue->HighCardVal1 = pair1Val;
+
+		for (long crdIndex = (this->cards.size() - 1); crdIndex >= 0; --crdIndex)
+        {
+			if (this->cards[crdIndex].Value != pair1Val)
+            {
+				if (this->p_handValue->HighCardVal2 != CardValue::NAC)
+                {
+                    if (this->p_handValue->HighCardVal3 != CardValue::NAC)
+                    {
+                        if (this->p_handValue->HighCardVal4 != CardValue::NAC)
+                            this->p_handValue->HighCardVal5 = this->cards[crdIndex].Value;
+                        else
+                            this->p_handValue->HighCardVal4 = this->cards[crdIndex].Value;
+                    }
+                    else
+                        this->p_handValue->HighCardVal3 = this->cards[crdIndex].Value;
                 }
                 else
-                    this->p_handValue->TypeOfHand = HandType::OnePair;
-            }
-        }
-    }
+                    this->p_handValue->HighCardVal2 = this->cards[crdIndex].Value;
+			}
+		}
+	}
+	else
+    {
+        this->p_handValue->TypeOfHand = HandType::HighCard;
+        this->p_handValue->HighCardVal1 = this->cards[this->cards.size() - 1].Value;
+        this->p_handValue->HighCardVal2 = this->cards[this->cards.size() - 2].Value;
+        this->p_handValue->HighCardVal3 = this->cards[this->cards.size() - 3].Value;
+        this->p_handValue->HighCardVal4 = this->cards[this->cards.size() - 4].Value;
+        this->p_handValue->HighCardVal5 = this->cards[this->cards.size() - 5].Value;
+	}
     
     // Check for straight and flush
-    bool isStraight = true;
-    bool isFlush = true;
+    bool isPossibleStraight = true;
+    bool isPossibleFlush = true;
     
-    if (pair1Val == CardValue::NAC
-        && threeOfKindVal == CardValue::NAC
-        && fourOfKindVal == CardValue::NAC)
+    if (this->p_handValue->TypeOfHand == HandType::HighCard)
     {
-        if (this->cards[0].Value > CardValue::Ten)         // Need to check this b/c of the way
-            isStraight = false;                             // the ++ operator is implemented
+        if (this->cards[0].Value > CardValue::Ten)
+            isPossibleStraight = false;
         
+        CardValue nextCardVal = CardValue::NAC;
         for (int i = 0; i < (this->cards.size() - 1); i++)
         {
-            if (++this->cards[i].Value != this->cards[i + 1].Value)
+            if (isPossibleStraight)
             {
-                isStraight = false;
+                nextCardVal = static_cast<CardValue>(static_cast<int>(this->cards[i].Value) + 1);
+                if (this->cards[i + 1].Value != nextCardVal)
+                {
+                    isPossibleStraight = false;
+                }
             }
             
             if (this->cards[i].Suit != this->cards[i + 1].Suit)
             {
-                isFlush = false;
+                isPossibleFlush = false;
             }
         }
         
-        if (isStraight)
+        if (isPossibleStraight)
         {
-            if (isFlush)
+            if (isPossibleFlush)
                 this->p_handValue->TypeOfHand = HandType::StraightFlush;
             else
                 this->p_handValue->TypeOfHand = HandType::Straight;
         }
-        else if (isFlush)
-        {
+        else if (isPossibleFlush)
             this->p_handValue->TypeOfHand = HandType::Flush;
-        }
     }
 }
 

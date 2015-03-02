@@ -27,6 +27,7 @@ constexpr CardValue operator++(CardValue& cv, int);
 constexpr CardValue& operator++(CardValue& cv);
 
 enum class HandType {
+    NAH = -1,
     HighCard = 0,
     OnePair,
     TwoPair,
@@ -65,6 +66,7 @@ public:
     bool operator<=(const Card& otherCard) const;
     
     bool operator>=(const Card& otherCard) const;
+
 };
 
 class Hand;
@@ -88,6 +90,8 @@ public:
     CardValue HighCardVal1;
     CardValue HighCardVal2;
     CardValue HighCardVal3;
+    CardValue HighCardVal4;
+    CardValue HighCardVal5;
     
     HandValue();
     

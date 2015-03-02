@@ -472,10 +472,7 @@ constexpr CardValue& operator++(CardValue& cv)
     return cv = (cv == CardValue::Ace) ? CardValue::Two : static_cast<CardValue>(static_cast<int>(cv) + 1);
 }
 
-// borrowed from: https://www.safaribooksonline.com/library/view/C+++Cookbook/0596007612/ch04s07.html
-// It is necessary to put an extra space between the last two right-angle brackets of the function header 
-// in order to tell the compiler that it's not reading a right-shift operator.
-
+// based on: https://www.safaribooksonline.com/library/view/C+++Cookbook/0596007612/ch04s07.html
 vector<string>* split(const string& s, char c) 
 {
     vector<string>* v = new vector<string>();

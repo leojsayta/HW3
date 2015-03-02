@@ -10,7 +10,11 @@
 #define __HW3__HW3Classes__
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <functional>
 #include <string>
+#include <exception>
 #include <vector>
 
 using namespace std;
@@ -18,7 +22,7 @@ using namespace std;
 enum class CardSuit {NAC = -1, Club = 0, Diamond, Heart, Spade};
 constexpr CardSuit operator++(CardSuit& a, int);
 
-enum class CardValue {NAC = -1, Two, Three, Four, Five, Six, Seven, Eight, Nine, Jack, Queen, King, Ace};
+enum class CardValue {NAC = -1, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace};
 constexpr CardValue operator++(CardValue& cv, int);
 constexpr CardValue& operator++(CardValue& cv);
 
@@ -69,9 +73,7 @@ class HandValue
 {
 private:
     
-    Hand* p_hand = nullptr;
-    
-    HandValue();
+    //Hand* p_hand = nullptr;
     
 public:
     
@@ -87,7 +89,9 @@ public:
     CardValue HighCardVal2;
     CardValue HighCardVal3;
     
-    HandValue(Hand* hnd);
+    HandValue();
+    
+    //HandValue(Hand& hnd);
     
 };
 
@@ -103,13 +107,15 @@ private:
     
     void determineValue();
     
-    bool checkForRepeatedVals(int& index, int& count);
+    bool findRepeatedVals(int& index, CardValue& val, int& count);
     
 public:
     
     Hand(vector<Card>& cards);
     
     Hand(Card& c1, Card& c2, Card& c3, Card& c4, Card& c5);
+    
+    static Hand* CreateHand(vector<string>& hndStrings);
     
     void SetCards(vector<Card>& cards)
     {
@@ -132,8 +138,19 @@ public:
     bool operator>=(const Hand& otherHand) const;
     
     bool operator<=(const Hand& otherHand) const;
+
+    void setP_handValue(HandValue* p_handValue) 
+    {
+        this->p_handValue = p_handValue;
+    }
+
+    HandValue* getP_handValue() const 
+    {
+        return p_handValue;
+    }
     
 };
 
+vector<string>* split(const string& s, char c);
 
 #endif /* defined(__HW3__HW3Classes__) */

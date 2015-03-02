@@ -401,27 +401,13 @@ Hand* Hand::CreateHand(vector<string>& hndStrings)
 
 bool Hand::operator==(const Hand& otherHand) const
 {
+    if (this->p_handValue->TypeOfHand != otherHand.p_handValue->TypeOfHand)
+        return false;
+    
     for (int i = 0; i < this->cards.size(); i++)
     {
         if (this->cards[i] != otherHand.cards[i])
-        {
             return false;
-        }
-    }
-    
-    if ((this->p_handValue->TypeOfHand == HandType::Flush ||
-         this->p_handValue->TypeOfHand == HandType::StraightFlush)
-        &&
-        (otherHand.p_handValue->TypeOfHand != HandType::Flush ||
-         otherHand.p_handValue->TypeOfHand != HandType::StraightFlush))
-    {
-        return false;
-    }
-    else
-        if (otherHand.p_handValue->TypeOfHand == HandType::Flush ||
-            otherHand.p_handValue->TypeOfHand == HandType::StraightFlush)
-    {
-        return false;
     }
     
     return true;
@@ -441,24 +427,17 @@ bool Hand::operator<(const Hand& otherHand) const
     else
         if (this->p_handValue->TypeOfHand == otherHand.p_handValue->TypeOfHand)
         {
-            long i = this->cards.size() -1;
-            
-            do
+            for (long i = 0; i < this->getP_handValue()->GetOrderedCardVals().size(); i++)
             {
-                if (this->cards[i] < otherHand.cards[i])
-                    return true;
-                else if (this->cards[i] > otherHand.cards[i])
+                if (this->getP_handValue()->GetOrderedCardVals()[i] >= otherHand.getP_handValue()->GetOrderedCardVals()[i])
                     return false;
-                --i;
-                
-            } while (i >= 0 && this->cards[i] == otherHand.cards[i]);
-            
-            return false;
+            }
         }
         else
         {
             return false;
         }
+    return true;
 }
 
 bool Hand::operator>(const Hand& otherHand) const

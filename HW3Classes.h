@@ -95,6 +95,11 @@ public:
     
     HandValue();
     
+    vector<CardValue> GetOrderedCardVals()
+    {
+        return vector<CardValue>{HighCardVal1, HighCardVal2, HighCardVal3, HighCardVal4, HighCardVal5};
+    }
+    
     //HandValue(Hand& hnd);
     
 };

@@ -92,7 +92,7 @@ int main(int argc, const char *argv[])
         }
         
         cout << "Left Hand won " << lHandWon << '\n';
-        cout << "Righ Hand won " << rHandWon << '\n';
+        cout << "Right Hand won " << rHandWon << '\n';
 
         
 //        for (vector<string>::iterator p = data.begin(); p != data.end(); ++p) 

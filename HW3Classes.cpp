@@ -427,10 +427,17 @@ bool Hand::operator<(const Hand& otherHand) const
     else
         if (this->p_handValue->TypeOfHand == otherHand.p_handValue->TypeOfHand)
         {
-            for (long i = 0; i < this->getP_handValue()->GetOrderedCardVals().size(); i++)
+            vector<CardValue> lh = this->getP_handValue()->GetOrderedCardVals();
+            vector<CardValue> rh = otherHand.getP_handValue()->GetOrderedCardVals();
+            
+            for (long i = 0; i < lh.size(); i++)
             {
-                if (this->getP_handValue()->GetOrderedCardVals()[i] >= otherHand.getP_handValue()->GetOrderedCardVals()[i])
+                if (lh[i] > rh[i])
                     return false;
+                else if (lh[i] < rh[i])
+                    return true;
+                else
+                    continue;
             }
         }
         else

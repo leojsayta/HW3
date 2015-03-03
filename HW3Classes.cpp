@@ -88,7 +88,7 @@ Card::Card(char suit, char val) : Card()
             this->Value = CardValue::Nine;
             break;
         case TEN:
-            this->Value = CardValue::Nine;
+            this->Value = CardValue::Ten;
             break;
         case JACK:
             this->Value = CardValue::Jack;
@@ -199,9 +199,9 @@ void Hand::determineValue()
         cv = CardValue::NAC;
         if (findRepeatedVals(index, cv, count))     // 2, 3, or 4 of a kind
         {
-            if (count > 2)                          // 3 or 4 of a kind
+            if (count >= 2)                          // 3 or 4 of a kind
             {
-                if (count >3)                       // 4 of a kind
+                if (count == 3)                       // 4 of a kind
                 {
                     fourOfKindVal = cv;
                 }
@@ -222,8 +222,8 @@ void Hand::determineValue()
                 }
             }
         }
-        else
-            index++;
+//        else
+//            index++;
         
     } while (index < (this->cards.size() - 1));
     
@@ -384,7 +384,7 @@ bool Hand::findRepeatedVals(int& index, CardValue& val, int& count)
         return false;
 }
 
-Hand* Hand::CreateHand(vector<string>& hndStrings)
+Hand Hand::CreateHand(vector<string>& hndStrings)
 {
     vector<Card> cards;
     
@@ -393,8 +393,8 @@ Hand* Hand::CreateHand(vector<string>& hndStrings)
         cards.push_back({crdStr[1], crdStr[0]});
     }
  
-    Hand* tmp = new Hand(cards);
-    tmp->determineValue();
+    Hand tmp = Hand(cards);
+    tmp.determineValue();
     
     return tmp;
 }

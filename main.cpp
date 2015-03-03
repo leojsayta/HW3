@@ -43,8 +43,8 @@ int main(int argc, const char *argv[])
         string strInput;
         string strOutput;
         
-        Hand* lh;
-        Hand* rh;
+        //Hand lh;
+        //Hand rh;
         
         int lHandWon = 0;
         int rHandWon = 0;
@@ -55,12 +55,18 @@ int main(int argc, const char *argv[])
             getline(in, strInput, '\n'); // Grab the next line
             //cout << strInput << '\n';
             
+            if (strInput.empty())
+                continue;
+            
             pAllCardTxt = split(strInput, ' ');
             pLeftHandCardTxt = new vector<string>(pAllCardTxt->begin(), pAllCardTxt->begin() + SIZE_Of_HAND);            
             pRightHandCardTxt = new vector<string>(pAllCardTxt->begin() + SIZE_Of_HAND, pAllCardTxt->end());            
             
-            lh = Hand::CreateHand(*pLeftHandCardTxt);
-            rh = Hand::CreateHand(*pRightHandCardTxt);
+            Hand lh = Hand::CreateHand(*pLeftHandCardTxt);
+            Hand rh = Hand::CreateHand(*pRightHandCardTxt);
+            
+            //vector<string> vstr{"QH", "9D", "9H", "TS", "TC"};
+            //rh = Hand::CreateHand(vstr);
             
             if (lh == rh)
             {
@@ -84,6 +90,9 @@ int main(int argc, const char *argv[])
             
             
         }
+        
+        cout << "Left Hand won " << lHandWon << '\n';
+        cout << "Righ Hand won " << rHandWon << '\n';
 
         
 //        for (vector<string>::iterator p = data.begin(); p != data.end(); ++p) 

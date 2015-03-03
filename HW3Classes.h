@@ -13,6 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <functional>
+#include <algorithm>
 #include <string>
 #include <exception>
 #include <vector>
@@ -124,7 +125,7 @@ public:
     
     Hand(Card& c1, Card& c2, Card& c3, Card& c4, Card& c5);
     
-    static Hand* CreateHand(vector<string>& hndStrings);
+    static Hand CreateHand(vector<string>& hndStrings);
     
     void SetCards(vector<Card>& cards)
     {
